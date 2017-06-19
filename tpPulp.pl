@@ -98,3 +98,12 @@ masAtareado(Persona):-
 	cantidadEncargos(Persona, CantidadEncargos1),
 	cantidadEncargos(Persona1, CantidadEncargos2), ( CantidadEncargos1 > CantidadEncargos2 ),
 	Persona1 \= Persona.
+	
+masAtareado(Persona):- 
+	cantidadEncargos(Persona, _),
+	forall((cantidadEncargos(Persona2, CantidadEncargos2), Persona1\=Persona2), leGana( Persona, Persona2)).
+
+leGana(Persona, Persona2):-
+	cantidadEncargos(Persona, Cant1),
+	cantidadEncargos(Persona2, Cant2),
+	Cant1>Cant2.
