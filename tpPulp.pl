@@ -15,15 +15,24 @@ trabajaPara(charo, george).
 saleCon(Quien, Cual):- pareja(Quien, Cual).
 saleCon(Quien, Cual):- pareja(Cual, Quien).
 
-esFiel(Personaje):- pareja(Personaje, _),  findall(Persona, pareja(Personaje, Persona), Lista), length(Lista,1).
+trabajaPara(Jefe, bernardo):-
+	trabajaPara(marsellus, Jefe),
+	Jefe \= jules.
 
-acatarOrdenes(Persona, Jefe):-
+trabajaPara(Jefe, george):-
+	saleCon(bernardo, Jefe).
+
+esFiel(Personaje):- personaje(Personaje,_),
+	not((saleCon(Personaje, Persona1), 
+	saleCon(Personaje, Persona2),
+	Persona1 \= Persona2)).
+
+acatarOrdenes(Jefe, Persona):-
 	trabajaPara(Jefe, Persona).
 
-acatarOrdenes(Persona, Jefe):-
-	trabajaPara(Jefe, Inter),
-	acatarOrdenes(Persona, Inter).
-
+acatarOrdenes(Jefe, Persona):-
+	trabajaPara(Jefe, Intermedio),
+	acatarOrdenes(Intermedio, Persona).
 
 
 % personaje(Nombre, Ocupacion)
@@ -62,7 +71,8 @@ amigo2(P1, P2):- amigo(P2, P1).
 
 esPeligroso(Persona):- personaje(Persona, mafioso(maton)).
 
-esPeligroso(Persona):- personaje(Persona, ladron(Lista)), member(licorerias, Lista).
+esPeligroso(Persona):- personaje(Persona, ladron(Lista)), 
+	member(licorerias, Lista).
 
 cercano(Persona1, Persona2):- amigo2(Persona1, Persona2).
 cercano(Persona1, Persona2):- relacionLaboral(Persona1,Persona2).
@@ -82,28 +92,21 @@ nivelRespeto(Persona,Nivel):- personaje(Persona, mafioso(capo)), Nivel is 20.
 
 nivelRespeto(vincent, 15).
 
-esRespetable(Persona):- nivelRespeto(Persona, Nivel), Nivel > 9.
+esRespetable(Persona):- personaje(Persona,_),
+	nivelRespeto(Persona, Nivel), 
+	Nivel > 9.
 
 respetabilidad(Respetables, NoRespetables):-
 	findall(Persona, esRespetable(Persona), ListaRespetable),
 	length(ListaRespetable, Respetables),
-	findall(Persona, not(esRespetable(Persona)), ListaNoRespetable),
+	findall(Persona1, ( personaje(Persona1, _), not(esRespetable(Persona1) ) ), ListaNoRespetable),
 	length(ListaNoRespetable, NoRespetables).
 
 cantidadEncargos(Persona, Cantidad):-
-	findall(Encargo, encargo(Persona, _, Encargo), ListaEncargos),
+	personaje(Persona,_),
+	findall(Encargo, encargo(_, Persona, Encargo), ListaEncargos),
 	length(ListaEncargos, Cantidad).
 
-masAtareado(Persona):-
-	cantidadEncargos(Persona, CantidadEncargos1),
-	cantidadEncargos(Persona1, CantidadEncargos2), ( CantidadEncargos1 > CantidadEncargos2 ),
-	Persona1 \= Persona.
-	
 masAtareado(Persona):- 
-	cantidadEncargos(Persona, _),
-	forall((cantidadEncargos(Persona2, CantidadEncargos2), Persona1\=Persona2), leGana( Persona, Persona2)).
-
-leGana(Persona, Persona2):-
-	cantidadEncargos(Persona, Cant1),
-	cantidadEncargos(Persona2, Cant2),
-	Cant1>Cant2.
+	cantidadEncargos(Persona, CantidadEncargos),
+	forall((cantidadEncargos(Persona1, CantidadEncargos1), Persona\=Persona1), CantidadEncargos > CantidadEncargos1).
