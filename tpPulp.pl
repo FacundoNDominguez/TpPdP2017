@@ -110,3 +110,9 @@ cantidadEncargos(Persona, Cantidad):-
 masAtareado(Persona):- 
 	cantidadEncargos(Persona, CantidadEncargos),
 	forall((cantidadEncargos(Persona1, CantidadEncargos1), Persona\=Persona1), CantidadEncargos > CantidadEncargos1).
+
+3)a)
+escuadron(Personjes):-esLaCombinacionPerfecta(Personajes)
+
+esLaCombinacionPerfecta(Personajes):-member(marsellus, Personajes).
+esLaCombinacionPerfecta(Personajes):-member(vincent, Personajes),member(winston, Personajes).
