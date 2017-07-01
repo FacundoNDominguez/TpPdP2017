@@ -114,5 +114,3 @@ masAtareado(Persona):-
 3)a)
 escuadron(Personjes):-esLaCombinacionPerfecta(Personajes)
 
-esLaCombinacionPerfecta(Personajes):-member(marsellus, Personajes).
-esLaCombinacionPerfecta(Personajes):-member(vincent, Personajes),member(winston, Personajes).
