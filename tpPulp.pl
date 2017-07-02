@@ -139,3 +139,6 @@ sumaPersonajes([Personaje, OtroPersonaje | Otros], Criterio, Total):-
 	sumaPersonajes([OtroPersonaje | Otros], Criterio, Total),
 	Total is Numero + OtroNumero.	
 	
+sumaPersonajes([Personaje], Criterio, Total):-
+	Criterio(Personaje,Numero),
+	Total is Numero.
