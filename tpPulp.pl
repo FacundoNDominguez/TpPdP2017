@@ -111,6 +111,17 @@ masAtareado(Persona):-
 	cantidadEncargos(Persona, CantidadEncargos),
 	forall((cantidadEncargos(Persona1, CantidadEncargos1), Persona\=Persona1), CantidadEncargos > CantidadEncargos1).
 
-3)a)
+3)1)
 escuadron([Personaje]):-nivelRespeto(Personaje, Nivel), Nivel > 15.
 escuadron([Personje1, Personaje2| Otros]):- nivelRespeto(Personaje1, NivelPersonaje1), nivelRespeto(Personaje2, NivelPersonaje2), (NivelPersonaje1 + NivelPersonaje2) > 15, escuadron([Personaje2| Otros]).
+
+2)
+batallon([Personaje], EncargosTotales):- 
+	cantidadEncargos(Personaje, Cantidad),
+	EncargosTotal < Cantidad.
+	
+batallon([Personaje1, Personaje2 | Otros], EncargosTotales):- 
+	cantidadEncargos(Personaje1, Cantidad1),
+	cantidadEncargos(Personaje2, Cantidad2),
+	batallon([Personaje2 | Otros], EncargosTotales),
+	EncargosTotal < Cantidad1 + Cantidad2.
