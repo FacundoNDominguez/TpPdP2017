@@ -112,5 +112,5 @@ masAtareado(Persona):-
 	forall((cantidadEncargos(Persona1, CantidadEncargos1), Persona\=Persona1), CantidadEncargos > CantidadEncargos1).
 
 3)a)
-escuadron(Personjes):-esLaCombinacionPerfecta(Personajes)
-
+escuadron([Personaje]):-nivelRespeto(Personaje, Nivel), Nivel > 15.
+escuadron([Personje1, Personaje2| Otros]):- nivelRespeto(Personaje1, NivelPersonaje1), nivelRespeto(Personaje2, NivelPersonaje2), (NivelPersonaje1 + NivelPersonaje2) > 15, escuadron([Personaje2| Otros]).
