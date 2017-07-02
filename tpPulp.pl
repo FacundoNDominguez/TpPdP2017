@@ -125,3 +125,10 @@ batallon([Personaje1, Personaje2 | Otros], EncargosTotales):-
 	cantidadEncargos(Personaje2, Cantidad2),
 	batallon([Personaje2 | Otros], EncargosTotales),
 	EncargosTotal < Cantidad1 + Cantidad2.
+	
+3)
+quieneSuperan(Personajes, NumeroASuperar, Criterio, Quienes):- 
+	Criterio(Personaje, Numero),
+	Numero > NumeroASuperar,
+	findall(Personaje, member(Personaje, Personajes), PersonajesQueLoSuperan).
+	
