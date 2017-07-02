@@ -132,3 +132,10 @@ quieneSuperan(Personajes, NumeroASuperar, Criterio, Quienes):-
 	Numero > NumeroASuperar,
 	findall(Personaje, member(Personaje, Personajes), PersonajesQueLoSuperan).
 	
+4)
+sumaPersonajes([Personaje, OtroPersonaje | Otros], Criterio, Total):-
+	Criterio(Personaje,Numero),
+	Criterio(OtroPersonaje,OtroNumero),
+	sumaPersonajes([OtroPersonaje | Otros], Criterio, Total),
+	Total is Numero + OtroNumero.	
+	
