@@ -5,11 +5,11 @@ import TP2
 main = hspec $ do
 	describe "Punto 3" $ do
 		it "Cristian debe estar duro" $do
-			comoEsta cristian `shouldBe` "duro"
+			comoEsta cristian `shouldBe` "Duro"
 		it "Rodri debe estar fresco" $do
-			comoEsta rodri `shouldBe` "fresco"
+			comoEsta rodri `shouldBe` "Fresco"
 		it "Marcos debe estar duro" $do
-			comoEsta marcos `shouldBe` "duro"
+			comoEsta marcos `shouldBe` "Duro"
 		it "Si Marcos se hace amigo de Ana y Rodri, esta piola" $do
 			comoEsta (agregarAmigo(agregarAmigo marcos ana) rodri) `shouldBe` "Piola"
 

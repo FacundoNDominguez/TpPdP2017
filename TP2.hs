@@ -39,7 +39,7 @@ cantidadAmigos :: Cliente -> Int
 cantidadAmigos = length.amigos
 
 comoEsta :: Cliente -> String
-comoEsta cliente | (>50).resistencia $ cliente = "Fresco" | (/=0).cantidadAmigos $ cliente = "Piola" |  otherwise = "Duro"
+comoEsta cliente | (>50).resistencia $ cliente = "Fresco" | (>1).cantidadAmigos $ cliente = "Piola" |  otherwise = "Duro"
 
 
 
