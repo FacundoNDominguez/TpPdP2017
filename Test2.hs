@@ -5,25 +5,25 @@ import TP2
 main = hspec $ do
 	describe "Punto 1b" $ do
 		it "Marcos toma una soda de nivel 3 y queda con 2 bebidas" $do
-			length ( tragosQueTomo (tomarBebida marcos (soda 3))) `shouldBe` 2
+			length ( tragosQueTomo (tomarBebida (soda 3) marcos)) `shouldBe` 2
 		it "Marcos toma una soda de nivel 3 y queda con 40 de resistencia" $do
-			resistencia (tomarBebida marcos (soda 3)) `shouldBe` 40
+			resistencia (tomarBebida (soda 3) marcos) `shouldBe` 40
 	describe "Punto 1c" $ do
 		it "Rodri toma una soda de nivel 1 y una soda de nivel 2 y queda con nombre errperpRodri" $do
-			nombre ( ( (soda 2).(soda 1) ) rodri) `shouldBe` "errperpRodri"
+			nombre ( ( (soda 2).(soda 1) ) rodri) `shouldBe` "errperpRodrigo"
 		it "Marcos toma un klusener de huevo, un tintico y una jarraLoca y queda con 30 de resistencia" $do
 			resistencia ( ( (klusener "huevo").tintico.jarraLoca ) $ marcos ) `shouldBe` 30
 		it "Marcos toma un klusener de huevo, un tintico y una jarraLoca y queda con 4 bebidas en el historial" $do
-			length ( tragosQueTomo ( tomarBebida (tomarBebida (tomarBebida marcos (klusener "huevo")) tintico ) jarraLoca) ) `shouldBe` 4
+			length ( tragosQueTomo ( tomarBebida  jarraLoca (tomarBebida tintico (tomarBebida (klusener "huevo") marcos))) ) `shouldBe` 4
 	describe "Punto 1d" $ do
 		it "Marcos pide “dame otro” y tiene 2 bebidas en el historial" $do
 			length ( tragosQueTomo ( dameOtro marcos )) `shouldBe` 2
 		it " Marcos pide “dame otro” y lo deja con 34 de resistencia " $do
 			resistencia (dameOtro marcos) `shouldBe` 34
 		it "Rodri toma una soda de nivel 1, y dameOtro da como resultado que tiene 3 bebidas" $do
-			length ( tragosQueTomo ( dameOtro (tomarBebida rodri (soda 1)))) `shouldBe` 3
+			length ( tragosQueTomo ( dameOtro (tomarBebida (soda 1) rodri))) `shouldBe` 3
 		it "Rodri toma una soda de nivel 1, y dameOtro da como resultado que su nombre queda “erperpRodri”" $do
-			nombre (dameOtro (tomarBebida rodri (soda 1))) `shouldBe` "erperpRodrigo"
+			nombre (dameOtro (tomarBebida (soda 1) rodri)) `shouldBe` "erperpRodrigo"
 	describe "Punto 2b" $ do
 		it "Rodri puede tomar dos bebidas, entre un grog XD, un tintico y un klusener de frutilla" $do
 			cuantasPuedeTomar rodri [grogXD, tintico, klusener "frutilla"] `shouldBe` 2
