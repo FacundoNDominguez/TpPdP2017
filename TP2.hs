@@ -120,22 +120,30 @@ rescatarse horas cliente | horas > 3 = modificarResistencia 200 cliente | horas 
 
 --1
 
-tomarBebida :: Cliente -> Bebida -> Cliente
+tomarBebida :: Bebida -> Cliente -> Cliente
 
-tomarBebida cliente bebida = bebida (cliente {tragosQueTomo =  [bebida] ++ (tragosQueTomo cliente)}) 
+tomarBebida bebida cliente = bebida (cliente {tragosQueTomo =  [bebida] ++ (tragosQueTomo cliente)}) 
 
+prepararBebibasParaTomar :: [Bebida] -> [Bebida]
+prepararBebibasParaTomar bebidas = map tomarBebida bebidas
 
+componerBebidasEnUnaSola:: [Bebida] -> Bebida
+componerBebidasEnUnaSola bebidas =foldl1 (.) (prepararBebibasParaTomar bebidas)
 
 tomarTragos :: Cliente -> [Bebida] -> Cliente
-tomarTragos cliente bebidas = foldl1 (.) (map (flip tomarBebida) bebidas) cliente
+tomarTragos cliente bebidas = (componerBebidasEnUnaSola bebidas) $ cliente
 
 hacerCosas:: Cliente -> [Bebida] -> Cliente
 hacerCosas cliente bebidas  = foldl1 (.) bebidas cliente
 
+noPidioNada :: Cliente -> Bool
+noPidioNada cliente = null.tragosQueTomo $ cliente
 
+ultimoTrago :: Cliente -> Bebida
+ultimoTrago cliente = head (tragosQueTomo cliente)
 
 dameOtro :: Cliente -> Cliente
-dameOtro cliente | null.tragosQueTomo $ cliente = cliente |otherwise = tomarBebida cliente (head  (tragosQueTomo cliente))
+dameOtro cliente | noPidioNada cliente = cliente |otherwise = tomarBebida (ultimoTrago cliente) cliente
 
 
 
@@ -154,30 +162,30 @@ cuantasPuedeTomar cliente = length.(cualesPuedeTomar cliente)
 
 --3
 
-data Itinerario = UnItinerario {nombreItinerario :: String, duracion :: Float, programa :: ([Bebida],[Bebida]) } deriving (Show)
+data Itinerario = UnItinerario {nombreItinerario :: String, duracion :: Float, programa :: [Bebida] } deriving (Show)
 
 mezclaExplosiva :: Itinerario
-mezclaExplosiva = UnItinerario "Mezcla Explosiva" 2.5 ([grogXD, grogXD, klusener "huevo", klusener "frutilla"],[])
+mezclaExplosiva = UnItinerario "Mezcla Explosiva" 2.5 [grogXD, grogXD, klusener "huevo", klusener "frutilla"]
 
 itinerarioBasico :: Itinerario
-itinerarioBasico = UnItinerario "Itinerario Basico" 5 ([klusener "huevo",klusener "Chocolate", jarraLoca],[rescatarse 2])
+itinerarioBasico = UnItinerario "Itinerario Basico" 5 [klusener "huevo",klusener "Chocolate", jarraLoca, rescatarse 2]
 
 salidaDeAmigos :: Itinerario
-salidaDeAmigos = UnItinerario "Salida De Amigos" 1 ([ (soda 1),tintico,jarraLoca], [ (flip agregarAmigo robertoCarlos)])
+salidaDeAmigos = UnItinerario "Salida De Amigos" 1 [jarraLoca,(flip agregarAmigo robertoCarlos),tintico,(soda 1)]
 
 robertoCarlos:: Cliente
 robertoCarlos = UnCliente "Roberto Carlos" 165 [] []
 
 
 itinerar :: Itinerario -> Cliente -> Cliente
-itinerar itinerario cliente = hacerCosas (tomarTragos cliente (fst (programa itinerario))) (snd (programa itinerario))
+itinerar itinerario cliente = tomarTragos cliente (programa itinerario)
 
 --itinerar rodri salidaConAmigos, itinerar marcos mezclaExplosiva
 
 
 --4
 intensidad :: Itinerario -> Float
-intensidad itinerario =   (/ (duracion itinerario)) (genericLength ( (fst (programa itinerario))++(snd (programa itinerario) ) ) )
+intensidad itinerario =   (/ (duracion itinerario)) (genericLength (programa itinerario) )
 
 
 comprobarSiEsElDeMayorIntensidad :: Float -> Itinerario -> Bool 
@@ -191,15 +199,15 @@ laIntensidadDelItinerarioDeMayorIntesidad :: [Itinerario] -> Float
 laIntensidadDelItinerarioDeMayorIntesidad lista = (maximum (map intensidad lista))
 
 
-hacerElItinerarioMasIntenso :: Cliente -> Cliente
+hacerElItinerarioMasIntenso :: Cliente -> [Itinerario] -> Cliente
 
-hacerElItinerarioMasIntenso cliente = itinerar (elMasIntenso [mezclaExplosiva, itinerarioBasico, salidaDeAmigos]) cliente
+hacerElItinerarioMasIntenso cliente itinerarios = itinerar (elMasIntenso itinerarios) cliente
 
 --5
 
 listaInfinitaDeSodas :: [Bebida]
 
-listaInfinitaDeSodas = map (\(x,y) -> x y)(zip (repeat soda) [1..])
+listaInfinitaDeSodas = map (soda) [1..]
 
 
 chuckNorris :: Cliente

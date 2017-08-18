@@ -39,7 +39,7 @@ main = hspec $ do
 		it  "Ana toma una Soda de fuerza 10, queda con nombre errrrrrrrrrpAna" $do
 			nombre ( soda 10 ana) `shouldBe` "errrrrrrrrrpAna"
 		it  "Ana toma una Soda de fuerza 0, queda con nombre epAna" $do
-			nombre ( soda 10 ana) `shouldBe` "epAna"
+			nombre ( soda 0 ana) `shouldBe` "epAna"
 	describe "Punto 6" $do
 		it  "Rodri se rescata 5 horas, queda con 255 de resistencia" $do
 			resistencia (rescatarse 5 rodri) `shouldBe` 255
