@@ -1,3 +1,4 @@
+
 %1
 
 programa(fernando, cobol).
@@ -8,7 +9,7 @@ programa(julieta, java).
 programa(marcos, java).
 
 programa(santiago, emacs).
-programa(santiago, javaASD).
+programa(santiago, javaCarlos).
 
 rol(fernando, analistaFuncional).
 rol(andres, projectLeader).
