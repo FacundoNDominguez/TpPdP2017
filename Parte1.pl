@@ -8,7 +8,7 @@ programa(julieta, java).
 programa(marcos, java).
 
 programa(santiago, emacs).
-programa(santiago, java).
+programa(santiago, javaASD).
 
 rol(fernando, analistaFuncional).
 rol(andres, projectLeader).
